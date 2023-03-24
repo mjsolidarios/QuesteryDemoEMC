@@ -1,0 +1,252 @@
+[gd_scene load_steps=15 format=3 uid="uid://be5bpy1qy274q"]
+
+[ext_resource type="Script" path="res://addons/virtual_joystick/scripts/virtual_joystick.gd" id="1_5fk18"]
+[ext_resource type="Script" path="res://Player.gd" id="2_posod"]
+[ext_resource type="Script" path="res://HUD.gd" id="3_ouveo"]
+[ext_resource type="ArrayMesh" uid="uid://kkay4sou0plh" path="res://addons/question.obj" id="3_qkria"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_p02qa"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j801q"]
+size = Vector3(1, 2.05862, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fct5k"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8qx2i"]
+size = Vector3(51.358, 1, 51.2071)
+
+[sub_resource type="Environment" id="Environment_q0p36"]
+background_energy_multiplier = 1.5
+
+[sub_resource type="BoxMesh" id="BoxMesh_e34mj"]
+
+[sub_resource type="Animation" id="Animation_dehcn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_uewpn"]
+resource_name = "new_animation"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 6.28319, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_i2l7k"]
+_data = {
+"RESET": SubResource("Animation_dehcn"),
+"new_animation": SubResource("Animation_uewpn")
+}
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vpxx1"]
+
+[node name="Main" type="Node3D"]
+
+[node name="Player" type="CharacterBody3D" parent="."]
+script = ExtResource("2_posod")
+
+[node name="Camera3D" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.852886, 0.522097, 0, -0.522097, 0.852886, 0, 3.05132, 3.77158)
+current = true
+fov = 88.7
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
+mesh = SubResource("CapsuleMesh_p02qa")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("BoxShape3D_j801q")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1352, 1.5289)
+shadow_enabled = true
+omni_range = 7.86916
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="Floor" type="MeshInstance3D" parent="Floor"]
+transform = Transform3D(49.9874, 0, 0, 0, 1, 0, 0, 0, 49.562, 0, -1.6032, 0)
+mesh = SubResource("BoxMesh_fct5k")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.55349, 0)
+shape = SubResource("BoxShape3D_8qx2i")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_q0p36")
+
+[node name="Area3DQuestItem1" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.81702, 0, 0)
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3DQuestItem1"]
+mesh = SubResource("BoxMesh_e34mj")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Area3DQuestItem1/MeshInstance3D"]
+transform = Transform3D(0.271431, 0.962458, -4.20704e-08, 0, -4.37114e-08, -1, -0.962458, 0.271431, -1.18646e-08, -0.0407438, 0.746852, 0.144472)
+mesh = ExtResource("3_qkria")
+skeleton = NodePath("../..")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Area3DQuestItem1"]
+autoplay = "new_animation"
+libraries = {
+"": SubResource("AnimationLibrary_i2l7k")
+}
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3DQuestItem1"]
+shape = SubResource("BoxShape3D_vpxx1")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Area3DQuestItem1"]
+
+[node name="Area3DQuestItem2" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.58712, 0, -6.14345)
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3DQuestItem2"]
+mesh = SubResource("BoxMesh_e34mj")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Area3DQuestItem2/MeshInstance3D"]
+transform = Transform3D(0.271431, 0.962458, -4.20704e-08, 0, -4.37114e-08, -1, -0.962458, 0.271431, -1.18646e-08, -0.0407438, 0.746852, 0.144472)
+mesh = ExtResource("3_qkria")
+skeleton = NodePath("../..")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Area3DQuestItem2"]
+autoplay = "new_animation"
+libraries = {
+"": SubResource("AnimationLibrary_i2l7k")
+}
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3DQuestItem2"]
+shape = SubResource("BoxShape3D_vpxx1")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Area3DQuestItem2"]
+
+[node name="Area3DQuestItem3" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.39249, 0, 8.12918)
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3DQuestItem3"]
+mesh = SubResource("BoxMesh_e34mj")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Area3DQuestItem3/MeshInstance3D"]
+transform = Transform3D(0.271431, 0.962458, -4.20704e-08, 0, -4.37114e-08, -1, -0.962458, 0.271431, -1.18646e-08, -0.0407438, 0.746852, 0.144472)
+mesh = ExtResource("3_qkria")
+skeleton = NodePath("../..")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Area3DQuestItem3"]
+autoplay = "new_animation"
+libraries = {
+"": SubResource("AnimationLibrary_i2l7k")
+}
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3DQuestItem3"]
+shape = SubResource("BoxShape3D_vpxx1")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Area3DQuestItem3"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_ouveo")
+
+[node name="ButtonJump" type="Button" parent="CanvasLayer/HUD"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -232.0
+offset_top = -164.0
+offset_right = -63.0
+offset_bottom = -57.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Jump"
+
+[node name="QuestPanel" type="Panel" parent="CanvasLayer/HUD"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -122.0
+offset_top = -122.0
+offset_right = 122.0
+offset_bottom = 122.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HUD/QuestPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/HUD/QuestPanel/VBoxContainer"]
+layout_mode = 2
+text = "Quest Title"
+
+[node name="Label2" type="Label" parent="CanvasLayer/HUD/QuestPanel/VBoxContainer"]
+layout_mode = 2
+text = "-----------------------------------------------"
+
+[node name="Label3" type="Label" parent="CanvasLayer/HUD/QuestPanel/VBoxContainer"]
+layout_mode = 2
+text = "Details"
+
+[node name="ButtonClosePanel" type="Button" parent="CanvasLayer/HUD/QuestPanel"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -65.0
+offset_top = -45.0
+offset_right = -15.0
+offset_bottom = -14.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Close"
+
+[node name="virtual_joystick" type="Node2D" parent="CanvasLayer/HUD"]
+position = Vector2(106, 538)
+script = ExtResource("1_5fk18")
+
+[connection signal="body_entered" from="Area3DQuestItem1" to="CanvasLayer/HUD" method="_on_area_3d_quest_item_1_body_entered"]
+[connection signal="body_entered" from="Area3DQuestItem2" to="CanvasLayer/HUD" method="_on_area_3d_quest_item_1_body_entered"]
+[connection signal="body_entered" from="Area3DQuestItem3" to="CanvasLayer/HUD" method="_on_area_3d_quest_item_1_body_entered"]
+[connection signal="pressed" from="CanvasLayer/HUD/ButtonJump" to="Player" method="_on_button_jump_pressed"]
+[connection signal="pressed" from="CanvasLayer/HUD/QuestPanel/ButtonClosePanel" to="CanvasLayer/HUD" method="_on_button_close_panel_pressed"]
+[connection signal="analogic_chage" from="CanvasLayer/HUD/virtual_joystick" to="Player" method="_on_virtual_joystick_analogic_chage"]
